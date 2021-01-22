@@ -1,0 +1,8 @@
+{
+  "text.autoconfig.gravitylib.title": "Gravity Configuration",
+
+  "text.autoconfig.gravitylib.option.tickLength": "Tick Length",
+  "text.autoconfig.gravitylib.option.tickLength.@Tooltip[0]": "[20] by Default.",
+  "text.autoconfig.gravitylib.option.tickLength.@Tooltip[1]": "Determines tick length of gravity.",
+  "text.autoconfig.gravitylib.option.tickLength.@Tooltip[2]": "[-1] will make gravity permanent."
+}
