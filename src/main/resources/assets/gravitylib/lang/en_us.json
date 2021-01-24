@@ -1,18 +1,20 @@
 {
   "text.autoconfig.gravitylib.title": "Gravity Configuration",
 
-  "text.autoconfig.gravitylib.option.tickLength": "Tick Length",
-  "text.autoconfig.gravitylib.option.tickLength.@Tooltip[0]": "[20] by Default.",
-  "text.autoconfig.gravitylib.option.tickLength.@Tooltip[1]": "Determines tick length of gravity.",
-  "text.autoconfig.gravitylib.option.tickLength.@Tooltip[2]": "[-1] will make gravity permanent.",
+  "text.autoconfig.gravitylib.option.length": "Gravity Length",
+  "text.autoconfig.gravitylib.option.length.@Tooltip[0]": "[15] by Default.",
+  "text.autoconfig.gravitylib.option.length.@Tooltip[1]": "Determines tick length of gravity.",
+  "text.autoconfig.gravitylib.option.length.@Tooltip[2]": "[-1] will make gravity permanent.",
 
-  "text.autoconfig.gravitylib.option.transition": "Gravity Transition",
-  "text.autoconfig.gravitylib.option.transition.@Tooltip[0]": "[True] by Default.",
-  "text.autoconfig.gravitylib.option.transition.@Tooltip[1]": "Determines if the transition is",
-  "text.autoconfig.gravitylib.option.transition.@Tooltip[2]": "gradual when gravity changes.",
+  "text.autoconfig.gravitylib.option.scale": "Transition Scale",
+  "text.autoconfig.gravitylib.option.scale.@Tooltip[0]": "[2/3] by Default.",
+  "text.autoconfig.gravitylib.option.scale.@Tooltip[1]": "Provided value must be two integers",
+  "text.autoconfig.gravitylib.option.scale.@Tooltip[2]": "separated by a slash, such as \"1/2\",",
+  "text.autoconfig.gravitylib.option.scale.@Tooltip[3]": "or it will default to 2/3.",
+  "text.autoconfig.gravitylib.option.scale.@Tooltip[4]": "[0] will disable transitions.",
 
   "text.autoconfig.gravitylib.option.defaultGravity": "Default Gravity",
   "text.autoconfig.gravitylib.option.defaultGravity.@Tooltip[0]": "[DOWN] by Default.",
   "text.autoconfig.gravitylib.option.defaultGravity.@Tooltip[1]": "Determines the default direction",
-  "text.autoconfig.gravitylib.option.defaultGravity.@Tooltip[2]": "of gravity for most cases."
+  "text.autoconfig.gravitylib.option.defaultGravity.@Tooltip[2]": "of gravity unless overridden."
 }

@@ -17,11 +17,24 @@ public class GravityConfig implements ConfigData {
      */
     @ConfigEntry.Gui.Tooltip(count = 3)
     @ConfigEntry.BoundedDiscrete(min = -1, max = 100)
-    public int tickLength = 15;
+    public int length = 15;
 
+    /**
+     * [2/3] by Default.
+     * Provided value must be two integers
+     * separated by a slash, such as "1/2",
+     * or it will default to 2/3.
+     * [0] will disable transitions.
+     */
     @ConfigEntry.Gui.Tooltip(count = 3)
-    public boolean transition = true;
+    @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
+    public String scale = "2/3";
 
+    /**
+     * [DOWN] by Default.
+     * Determines the default direction
+     * of gravity unless overridden.
+     */
     @ConfigEntry.Gui.Tooltip(count = 3)
     public EntityGravity defaultGravity = EntityGravity.DOWN;
 }
