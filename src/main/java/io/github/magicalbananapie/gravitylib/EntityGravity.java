@@ -35,33 +35,42 @@ public enum EntityGravity {
         @Override public double[] adjustXYZ(double x, double y, double z) { return new double[]{y, -x, z}; }
     };
 
-    public abstract EntityGravity getOpposite();
-
-    public Vec3d adjustVector(Vec3d input) {
-        double[] d = this.adjustXYZ(input.x, input.y, input.z);
-        return new Vec3d(d[0], d[1], d[2]);
-    }
-    //Possibly pitch, yaw, and roll?
-    //Todo: put time into understanding what these methods are trying to do, will make rotations easier
-    public abstract double[] adjustXYZ(double x, double y, double z);
-
-    private final Vec3i cameraTransformVars;
-    public Vec3i getCameraTransformVars() { return cameraTransformVars; }
-
     EntityGravity(String name, Vec3i cameraTransformVars) {
         this.name = name;
         this.cameraTransformVars = cameraTransformVars;
     }
 
+    public abstract EntityGravity getOpposite();
+    public abstract double[] adjustXYZ(double x, double y, double z);
+
     private final String name;
+    private final Vec3i cameraTransformVars;
+    private int length, delay; //Length is used for transitions, delay is used for preventing gravity changes
+    private boolean permanent = false;
+
     public String getName() { return this.name; }
     public Text getTranslatableName() { return new TranslatableText("gravity." + this.name); }
 
-    private int length;
+    public Vec3i getCameraTransformVars() { return cameraTransformVars; }
+
+    public int getDelay() { return this.delay; }
+    public void setDelay( int delay ) { this.delay = delay; }
     public int getLength() { return this.length; }
-    public void setLength(int length) { this.length = length; }
-    public boolean hasLength() { return length>0; }
+    public void setLength(int length) {
+        if(length<0) {
+            setPermanent();
+            this.length = 0;
+        } else this.length = length;
+    }
     public void tickLength() { --this.length; }
+
+    public boolean isPermanent() { return permanent; }
+    public void setPermanent() { this.permanent = true; }
+
+    public Vec3d adjustVector(Vec3d input) {
+        double[] d = this.adjustXYZ(input.x, input.y, input.z);
+        return new Vec3d(d[0], d[1], d[2]);
+    }
 
     public static EntityGravity get(int ordinal) {
         if     (ordinal==1) return EntityGravity.UP;

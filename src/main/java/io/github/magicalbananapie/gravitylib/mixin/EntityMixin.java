@@ -154,7 +154,7 @@ public abstract class EntityMixin implements EntityAccessor {
     @Inject(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;tickNetherPortal()V"))
     private void baseTick(CallbackInfo ci) {
         if(this.getGravity().getLength() > 0) this.getGravity().tickLength();
-        else if(this.getGravity().getLength() == 0) this.setGravity(config.defaultGravity, -1);
+        else if(this.getGravity().getLength() == 0 && !this.getGravity().isPermanent()) this.setGravity(config.defaultGravity, -1);
     }
 
     /**
@@ -299,7 +299,7 @@ public abstract class EntityMixin implements EntityAccessor {
     @Inject(method = "toTag", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getCustomName()Lnet/minecraft/text/Text;", shift = At.Shift.BEFORE))
     public void toTag(CompoundTag tag, CallbackInfoReturnable<CompoundTag> cir) {
         tag.putInt("Gravity", getGravity().ordinal());
-        tag.putInt("Length", getGravity().getLength());
+        tag.putInt("Length", getGravity().isPermanent()?-1:getGravity().getLength());
     }
 
     @Inject(method = "fromTag", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;setNoGravity(Z)V"))
