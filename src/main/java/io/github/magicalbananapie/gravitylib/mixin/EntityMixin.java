@@ -217,8 +217,8 @@ public abstract class EntityMixin implements EntityAccessor {
     @Inject(method = "getEyeHeight(Lnet/minecraft/entity/EntityPose;Lnet/minecraft/entity/EntityDimensions;)F", at = @At(value = "HEAD"), cancellable = true)
     public void getEyeHeight(EntityPose pose, EntityDimensions dimensions, CallbackInfoReturnable<Float> cir) {
         switch(getGravity()) {
-            case UP: cir.setReturnValue(-dimensions.height * 0.85F);
-            case DOWN: cir.setReturnValue(dimensions.height * 0.85F);
+            case UP: cir.setReturnValue(-dimensions.height * 0.85F); return;
+            case DOWN: cir.setReturnValue(dimensions.height * 0.85F); return;
             default: cir.setReturnValue(0F);
         }
     }
