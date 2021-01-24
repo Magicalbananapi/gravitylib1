@@ -26,8 +26,7 @@ public class GravityConfig implements ConfigData {
      * or it will default to 2/3.
      * [0] will disable transitions.
      */
-    @ConfigEntry.Gui.Tooltip(count = 3)
-    @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
+    @ConfigEntry.Gui.Tooltip(count = 5)
     public String scale = "2/3";
 
     /**
