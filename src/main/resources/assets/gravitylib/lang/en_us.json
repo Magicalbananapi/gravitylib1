@@ -4,5 +4,15 @@
   "text.autoconfig.gravitylib.option.tickLength": "Tick Length",
   "text.autoconfig.gravitylib.option.tickLength.@Tooltip[0]": "[20] by Default.",
   "text.autoconfig.gravitylib.option.tickLength.@Tooltip[1]": "Determines tick length of gravity.",
-  "text.autoconfig.gravitylib.option.tickLength.@Tooltip[2]": "[-1] will make gravity permanent."
+  "text.autoconfig.gravitylib.option.tickLength.@Tooltip[2]": "[-1] will make gravity permanent.",
+
+  "text.autoconfig.gravitylib.option.transition": "Gravity Transition",
+  "text.autoconfig.gravitylib.option.transition.@Tooltip[0]": "[True] by Default.",
+  "text.autoconfig.gravitylib.option.transition.@Tooltip[1]": "Determines if the transition is",
+  "text.autoconfig.gravitylib.option.transition.@Tooltip[2]": "gradual when gravity changes.",
+
+  "text.autoconfig.gravitylib.option.defaultGravity": "Default Gravity",
+  "text.autoconfig.gravitylib.option.defaultGravity.@Tooltip[0]": "[DOWN] by Default.",
+  "text.autoconfig.gravitylib.option.defaultGravity.@Tooltip[1]": "Determines the default direction",
+  "text.autoconfig.gravitylib.option.defaultGravity.@Tooltip[2]": "of gravity for most cases."
 }

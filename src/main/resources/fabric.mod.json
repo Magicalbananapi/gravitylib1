@@ -17,6 +17,9 @@
     ],
     "main": [
       "io.github.magicalbananapie.gravitylib.GravityLib"
+    ],
+    "modmenu": [
+      "io.github.magicalbananapie.gravitylib.integration.GravityModMenu"
     ]
   },
   "mixins": [
