@@ -66,10 +66,10 @@ public abstract class GameRendererMixin {
             int y = vars.getY(); if (y != 0) matrix.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(y));
             int z = vars.getZ(); if (z != 0) matrix.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(z));
 
-            if (config.transition) {
+            if (config.scale) {
                 float effectiveTimeoutTicks = gravity.getLength() - (1 * client.getTickDelta());
 
-                if (effectiveTimeoutTicks > ((float) config.tickLength) / 3) {
+                if (effectiveTimeoutTicks > ((float) config.length) / 3) {
                     //NOTICE: This is ALL math for transitions until the actual rotations begin
                     double rotationAngle;
 
@@ -111,7 +111,7 @@ public abstract class GameRendererMixin {
                         ((EntityAccessor) entity).setTransitionAngle((float) rotationAngle);
                     } else rotationAngle = ((EntityAccessor) entity).getTransitionAngle();
 
-                    double multiplier = 1 - ((((float) config.tickLength) - effectiveTimeoutTicks) / ((float) config.tickLength) * 2 / 3); // multiplierOneToZero = 1 - multiplierZeroToOne // and multiplierZeroToOne = numerator / denominator
+                    double multiplier = 1 - ((((float) config.length) - effectiveTimeoutTicks) / ((float) config.length) * 2 / 3); // multiplierOneToZero = 1 - multiplierZeroToOne // and multiplierZeroToOne = numerator / denominator
                     Vec3d eyePosChangeVector = ((EntityAccessor) entity).getEyePosChangeVector();
 
                     client.worldRenderer.scheduleTerrainUpdate();

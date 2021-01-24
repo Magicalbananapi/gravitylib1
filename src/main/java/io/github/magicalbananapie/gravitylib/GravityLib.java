@@ -25,6 +25,7 @@ public class GravityLib implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger(MOD_NAME, StringFormatterMessageFactory.INSTANCE);
 
     public static GravityConfig config;
+    public static double scale;
 
     public static Identifier id(String name) {
         return new Identifier(MOD_ID, name);
@@ -42,5 +43,7 @@ public class GravityLib implements ModInitializer {
         CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> {
             GravityCommand.register(dispatcher);
         });
+        String[] num = config.scale.split("/");
+        scale = (double)(Integer.getInteger(num[0]))/(Integer.getInteger(num[1]));
     }
 }
