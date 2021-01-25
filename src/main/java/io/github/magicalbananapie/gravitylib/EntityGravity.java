@@ -56,12 +56,7 @@ public enum EntityGravity {
     public int getTransitionLength() { return this.transitionLength; }
     public void setTransitionLength( int transitionLength ) { this.transitionLength = transitionLength; }
     public int getLength() { return this.length; }
-    public void setLength(int length) {
-        if(length<0) {
-            setPermanent();
-            this.length = 0;
-        } else this.length = length;
-    }
+    public void setLength(int length) { this.length = length; }
     public void tickLength() { --this.length; }
 
     public boolean isPermanent() { return permanent; }

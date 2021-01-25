@@ -23,21 +23,27 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import static io.github.magicalbananapie.gravitylib.util.Vec3dHelper.PITCH;
 import static io.github.magicalbananapie.gravitylib.util.Vec3dHelper.YAW;
 
-
-//NOTICE: Changes I made to try to fix NESW being inverted
-// 1. called for getOpposite() on gravity specific rotation (step 3 outside of transitions)
-// 2. removed getOpposite() on relativePitchYaw (double[] relativePitchYaw)
+/**
+ * Mixins to tell the camera how to use the rotated pitch and yaw from
+ * the connected Entity Mixins, and allow the camera to rotate.
+ * Without this, the pitch and yaw will work as expected, but the camera
+ * will not be rotated.
+ * @author Magicalbananapie
+ */
 @Mixin(GameRenderer.class)
 public abstract class GameRendererMixin {
     @Shadow @Final private Camera camera;
 
-    //TODO: Move this into an event (Probably after it is working), example in CameraOverhaul
+    //NOTICE: Changes I made to try to fix NESW being inverted
+    // 1. called for getOpposite() on gravity specific rotation (step 3 outside of transitions)
+    // 2. removed getOpposite() on relativePitchYaw (double[] relativePitchYaw)
+    //TODO: Follow CameraOverhaul's example and move most of this code into an event.
     @Inject(method = "renderWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;render(Lnet/minecraft/client/util/math/MatrixStack;FJZLnet/minecraft/client/render/Camera;Lnet/minecraft/client/render/GameRenderer;Lnet/minecraft/client/render/LightmapTextureManager;Lnet/minecraft/util/math/Matrix4f;)V", shift = At.Shift.BEFORE))
     private void PostCameraUpdate(float tickDelta, long limitTime, MatrixStack matrix, CallbackInfo ci) {
         MinecraftClient client = MinecraftClient.getInstance();
         Entity cameraEntity = client.getCameraEntity();
-        //Works in spectator mode and with custom entity types now as long as they extend livingEntity,
-        // however there are likely crashes in odd cases, and TODO: CAMERA ROTATIONS DON'T WORK IN SPECTATOR
+
+        //FIXME: CAMERA ROTATIONS DON'T WORK IN SPECTATOR
         if (cameraEntity instanceof LivingEntity) {
             LivingEntity entity = (LivingEntity)cameraEntity;
             EntityGravity gravity = ((EntityAccessor)entity).getGravity();

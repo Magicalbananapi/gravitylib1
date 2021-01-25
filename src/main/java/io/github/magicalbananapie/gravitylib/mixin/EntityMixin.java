@@ -90,7 +90,7 @@ public abstract class EntityMixin implements EntityAccessor {
     public void startTracking(EntityType<?> type, World world, CallbackInfo ci) {
         //TODO: Replace EntityGravity.DOWN with default gravity direction
         EntityGravity gravity = config.defaultGravity;
-        gravity.setLength(-1);
+        gravity.setLength(config.length);
         this.setPreviousGravity(gravity);
         this.dataTracker.startTracking(GRAVITY, gravity);
     }
