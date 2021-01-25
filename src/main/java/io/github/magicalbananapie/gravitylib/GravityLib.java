@@ -31,9 +31,7 @@ public class GravityLib implements ModInitializer {
         return new Identifier(MOD_ID, name);
     }
 
-    public static void log(String message){
-        LOGGER.log(Level.INFO, message);
-    }
+    public static void log(String message) { LOGGER.log(Level.INFO, message); }
 
     @Override
     public void onInitialize() {
@@ -43,7 +41,18 @@ public class GravityLib implements ModInitializer {
         CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> {
             GravityCommand.register(dispatcher);
         });
-        String[] num = config.scale.split("/");
-        scale = (double)(Integer.getInteger(num[0]))/(Integer.getInteger(num[1]));
+        try {
+            scale = parseScale(config.scale.split("/"));
+        } catch (NumberFormatException e) {
+            LOGGER.log(Level.WARN, "Invalid Value for Transition Scale: \"" + e.getMessage().split("\"")[1] + "\", defaulting to [2/3].");
+            scale = 2.0d / 3.0d;
+        }
+    }
+
+    private double parseScale(String[] fraction) {
+        if (Double.parseDouble(fraction[1]) != 0)
+            return (Double.parseDouble(fraction[0])) / (Double.parseDouble(fraction[1]));
+        else if (Double.parseDouble(fraction[1]) == 0 && Double.parseDouble(fraction[0]) == 0) return 1.0d;
+        else return Integer.MAX_VALUE;
     }
 }

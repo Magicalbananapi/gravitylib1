@@ -165,7 +165,7 @@ public abstract class EntityMixin implements EntityAccessor {
      */
     @Inject(method = "startRiding(Lnet/minecraft/entity/Entity;Z)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;setPose(Lnet/minecraft/entity/EntityPose;)V"))
     public void setRidingGravity(Entity vehicle, boolean force, CallbackInfoReturnable<Boolean> cir) {
-        this.setGravity(((EntityAccessor)vehicle).getGravity(), config.tickLength);
+        this.setGravity(((EntityAccessor)vehicle).getGravity(), ((EntityAccessor)vehicle).getGravity().getLength());
     }
 
     //TODO: Add collision checks

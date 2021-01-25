@@ -45,7 +45,7 @@ public enum EntityGravity {
 
     private final String name;
     private final Vec3i cameraTransformVars;
-    private int length, delay; //Length is used for transitions, delay is used for preventing gravity changes
+    private int length, transitionLength; //length is used for preventing gravity changes & transitionLength is used for transitions
     private boolean permanent = false;
 
     public String getName() { return this.name; }
@@ -53,8 +53,8 @@ public enum EntityGravity {
 
     public Vec3i getCameraTransformVars() { return cameraTransformVars; }
 
-    public int getDelay() { return this.delay; }
-    public void setDelay( int delay ) { this.delay = delay; }
+    public int getTransitionLength() { return this.transitionLength; }
+    public void setTransitionLength( int transitionLength ) { this.transitionLength = transitionLength; }
     public int getLength() { return this.length; }
     public void setLength(int length) {
         if(length<0) {

@@ -1,6 +1,7 @@
 package io.github.magicalbananapie.gravitylib.mixin.client;
 
 import io.github.magicalbananapie.gravitylib.EntityGravity;
+import io.github.magicalbananapie.gravitylib.GravityLib;
 import io.github.magicalbananapie.gravitylib.util.EntityAccessor;
 import io.github.magicalbananapie.gravitylib.util.Vec3dHelper;
 import net.minecraft.client.MinecraftClient;
@@ -21,7 +22,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static io.github.magicalbananapie.gravitylib.util.Vec3dHelper.PITCH;
 import static io.github.magicalbananapie.gravitylib.util.Vec3dHelper.YAW;
-import static io.github.magicalbananapie.gravitylib.GravityLib.config;
 
 
 //NOTICE: Changes I made to try to fix NESW being inverted
@@ -66,10 +66,10 @@ public abstract class GameRendererMixin {
             int y = vars.getY(); if (y != 0) matrix.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(y));
             int z = vars.getZ(); if (z != 0) matrix.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(z));
 
-            if (config.scale) {
+            if (GravityLib.scale == 0) {
                 float effectiveTimeoutTicks = gravity.getLength() - (1 * client.getTickDelta());
 
-                if (effectiveTimeoutTicks > ((float) config.length) / 3) {
+                if (effectiveTimeoutTicks > ((float) GravityLib.config.length) / 3) {
                     //NOTICE: This is ALL math for transitions until the actual rotations begin
                     double rotationAngle;
 
@@ -111,7 +111,7 @@ public abstract class GameRendererMixin {
                         ((EntityAccessor) entity).setTransitionAngle((float) rotationAngle);
                     } else rotationAngle = ((EntityAccessor) entity).getTransitionAngle();
 
-                    double multiplier = 1 - ((((float) config.length) - effectiveTimeoutTicks) / ((float) config.length) * 2 / 3); // multiplierOneToZero = 1 - multiplierZeroToOne // and multiplierZeroToOne = numerator / denominator
+                    double multiplier = 1 - ((((float) GravityLib.config.length) - effectiveTimeoutTicks) / ((float) GravityLib.config.length) * 2 / 3); // multiplierOneToZero = 1 - multiplierZeroToOne // and multiplierZeroToOne = numerator / denominator
                     Vec3d eyePosChangeVector = ((EntityAccessor) entity).getEyePosChangeVector();
 
                     client.worldRenderer.scheduleTerrainUpdate();

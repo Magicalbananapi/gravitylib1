@@ -22,11 +22,12 @@ public class GravityConfig implements ConfigData {
     /**
      * [2/3] by Default.
      * Provided value must be two integers
-     * separated by a slash, such as "1/2",
-     * or it will default to 2/3.
+     * or doubles separated by a slash,
+     * such as "1/2" or "0.5/2.5",
+     * otherwise it will default to [2/3].
      * [0] will disable transitions.
      */
-    @ConfigEntry.Gui.Tooltip(count = 5)
+    @ConfigEntry.Gui.Tooltip(count = 6)
     public String scale = "2/3";
 
     /**

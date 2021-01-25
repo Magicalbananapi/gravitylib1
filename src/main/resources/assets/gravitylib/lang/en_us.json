@@ -9,9 +9,10 @@
   "text.autoconfig.gravitylib.option.scale": "Transition Scale",
   "text.autoconfig.gravitylib.option.scale.@Tooltip[0]": "[2/3] by Default.",
   "text.autoconfig.gravitylib.option.scale.@Tooltip[1]": "Provided value must be two integers",
-  "text.autoconfig.gravitylib.option.scale.@Tooltip[2]": "separated by a slash, such as \"1/2\",",
-  "text.autoconfig.gravitylib.option.scale.@Tooltip[3]": "or it will default to 2/3.",
-  "text.autoconfig.gravitylib.option.scale.@Tooltip[4]": "[0] will disable transitions.",
+  "text.autoconfig.gravitylib.option.scale.@Tooltip[2]": "or doubles separated by a slash,",
+  "text.autoconfig.gravitylib.option.scale.@Tooltip[3]": "such as \"1/2\" or \"0.5/2.5\",",
+  "text.autoconfig.gravitylib.option.scale.@Tooltip[4]": "otherwise it will default to [2/3].",
+  "text.autoconfig.gravitylib.option.scale.@Tooltip[5]": "[0] will disable transitions.",
 
   "text.autoconfig.gravitylib.option.defaultGravity": "Default Gravity",
   "text.autoconfig.gravitylib.option.defaultGravity.@Tooltip[0]": "[DOWN] by Default.",

@@ -81,7 +81,7 @@ public class GravityCommand {
     private static int execute(CommandContext<ServerCommandSource> context, Collection<? extends Entity> targets, EntityGravity gravity, boolean permanent) {
         int i = 0;
         for (Entity entity : targets) {
-            ((EntityAccessor)entity).setGravity(gravity, permanent?-1:config.tickLength);
+            ((EntityAccessor)entity).setGravity(gravity, permanent?-1:config.length);
 
             Text text = gravity.getTranslatableName();
             if(entity instanceof ServerPlayerEntity) {
