@@ -10,6 +10,4 @@ public interface EntityAccessor {
     float getTransitionAngle();
     void setEyePosChangeVector(Vec3d eyePosChangeVector);
     Vec3d getEyePosChangeVector();
-    void setPreviousGravity(EntityGravity previousGravity);
-    EntityGravity getPreviousGravity();
 }

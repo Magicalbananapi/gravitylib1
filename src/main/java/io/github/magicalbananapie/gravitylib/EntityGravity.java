@@ -45,22 +45,27 @@ public enum EntityGravity {
 
     private final String name;
     private final Vec3i cameraTransformVars;
-    private int length, transitionLength; //length is used for preventing gravity changes & transitionLength is used for transitions
-    private boolean permanent = false;
+    private int length = 0, transition = 0, previous; //length is used for preventing gravity changes & transitionLength is used for transitions
 
     public String getName() { return this.name; }
     public Text getTranslatableName() { return new TranslatableText("gravity." + this.name); }
 
     public Vec3i getCameraTransformVars() { return cameraTransformVars; }
 
-    public int getTransitionLength() { return this.transitionLength; }
-    public void setTransitionLength( int transitionLength ) { this.transitionLength = transitionLength; }
+    public int getTransition() { return this.transition; }
     public int getLength() { return this.length; }
-    public void setLength(int length) { this.length = length; }
+    public void setLength(int length) {
+        this.length = length;
+        if(!getPrevious().equals(this)) this.transition = this.isPermanent()?(int)(config.length * GravityLib.scale):Math.min((int)(config.length * GravityLib.scale), length);
+    }
     public void tickLength() { --this.length; }
+    public void tickTransition() { --this.transition; }
 
-    public boolean isPermanent() { return permanent; }
-    public void setPermanent() { this.permanent = true; }
+    public EntityGravity getPrevious() { return get(previous); }
+
+    public void setPrevious(int previous) { this.previous = previous; }
+
+    public boolean isPermanent() { return length<0; }
 
     public Vec3d adjustVector(Vec3d input) {
         double[] d = this.adjustXYZ(input.x, input.y, input.z);

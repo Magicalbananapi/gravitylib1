@@ -72,10 +72,10 @@ public abstract class GameRendererMixin {
             int y = vars.getY(); if (y != 0) matrix.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(y));
             int z = vars.getZ(); if (z != 0) matrix.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(z));
 
-            if (GravityLib.scale == 0) {
-                float effectiveTimeoutTicks = gravity.getLength() - (1 * client.getTickDelta());
+            if (GravityLib.scale != 0) {
+                float effectiveTransitionTicks = gravity.getTransition() - (1 * client.getTickDelta());
 
-                if (effectiveTimeoutTicks > ((float) GravityLib.config.length) / 3) {
+                if (effectiveTransitionTicks > 0) {
                     //NOTICE: This is ALL math for transitions until the actual rotations begin
                     double rotationAngle;
 
@@ -100,12 +100,12 @@ public abstract class GameRendererMixin {
                         // Get the relative look vector for the previous gravity direction - (Second Line)
                         // Get the pitch and yaw from the relative look vector - (First Line)
                         double[] pitchAndYawRelativePrevLook = Vec3dHelper.getPrecisePitchAndYawFromVector(
-                                ((EntityAccessor) entity).getPreviousGravity().getOpposite().adjustVector(absoluteLookVec));
+                                ((EntityAccessor) entity).getGravity().getPrevious().getOpposite().adjustVector(absoluteLookVec));
 
                         // Pitch - 90, -90 changes it from the forwards direction to the upwards direction & Yaw - (Third Line)
                         // Get the relative upwards vector - (Second Line)
                         // Get the absolute vector for the relative upwards vector - (First Line)
-                        Vec3d absolutePrevUpVector = ((EntityAccessor) entity).getPreviousGravity().adjustVector(
+                        Vec3d absolutePrevUpVector = ((EntityAccessor) entity).getGravity().getPrevious().adjustVector(
                                 Vec3dHelper.getPreciseVectorForRotation(
                                         pitchAndYawRelativePrevLook[Vec3dHelper.PITCH] - 90, pitchAndYawRelativePrevLook[Vec3dHelper.YAW]));
 
@@ -117,7 +117,7 @@ public abstract class GameRendererMixin {
                         ((EntityAccessor) entity).setTransitionAngle((float) rotationAngle);
                     } else rotationAngle = ((EntityAccessor) entity).getTransitionAngle();
 
-                    double multiplier = 1 - ((((float) GravityLib.config.length) - effectiveTimeoutTicks) / ((float) GravityLib.config.length) * 2 / 3); // multiplierOneToZero = 1 - multiplierZeroToOne // and multiplierZeroToOne = numerator / denominator
+                    double multiplier = 1 - ((((float) GravityLib.config.length * GravityLib.scale) - effectiveTransitionTicks) / ((float) GravityLib.config.length * GravityLib.scale)); // multiplierOneToZero = 1 - multiplierZeroToOne // and multiplierZeroToOne = numerator / denominator
                     Vec3d eyePosChangeVector = ((EntityAccessor) entity).getEyePosChangeVector();
 
                     client.worldRenderer.scheduleTerrainUpdate();

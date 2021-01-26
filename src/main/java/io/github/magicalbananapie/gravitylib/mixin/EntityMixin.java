@@ -15,6 +15,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.Level;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -27,6 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Locale;
 
+import static io.github.magicalbananapie.gravitylib.GravityLib.LOGGER;
 import static io.github.magicalbananapie.gravitylib.util.Vec3dHelper.PITCH;
 import static io.github.magicalbananapie.gravitylib.util.Vec3dHelper.YAW;
 import static io.github.magicalbananapie.gravitylib.GravityLib.config;
@@ -76,10 +78,6 @@ public abstract class EntityMixin implements EntityAccessor {
     private Vec3d oldEyePos;
     private Vec3d eyePosChangeVector = Vec3d.ZERO;
 
-    private EntityGravity previousGravity;
-    public void setPreviousGravity(EntityGravity previousGravity) { this.previousGravity = previousGravity; }
-    public EntityGravity getPreviousGravity() { return previousGravity; }
-
     /**
      * Start tracking GRAVITY TrackedData here
      * @param type The type of entity
@@ -90,15 +88,23 @@ public abstract class EntityMixin implements EntityAccessor {
     public void startTracking(EntityType<?> type, World world, CallbackInfo ci) {
         //TODO: Replace EntityGravity.DOWN with default gravity direction
         EntityGravity gravity = config.defaultGravity;
-        gravity.setLength(config.length);
-        this.setPreviousGravity(gravity);
+        gravity.setLength(-1);
+        gravity.setPrevious(gravity.ordinal());
         this.dataTracker.startTracking(GRAVITY, gravity);
     }
 
+    /**
+     * The conditions in this if statement to make gravity
+     * act the way I want confuse me to no end...
+     * @author Magical("banana"+"π");
+     */
     public void setGravity(EntityGravity gravity, int length) {
-        if(this.getGravity()!=gravity) {
-            preGravityChange();
-            gravity.setLength(length);
+        //Here is some code that might be useful for gravity outside
+        // of the context of commands: &&!(this.getGravity().isPermanent()&&!gravity.isPermanent())
+        gravity.setPrevious(this.getGravity().ordinal());
+        gravity.setLength(length);
+        if(this.getGravity()!=gravity||((this.getGravity().getLength()!=gravity.getLength()||this.getGravity().getTransition()!=gravity.getTransition()))) {
+            this.oldEyePos = this.getPos().add(0, this.getEyeHeight(this.getPose()), 0);
             this.dataTracker.set(GRAVITY, gravity);
             postGravityChange(gravity);
         }
@@ -106,19 +112,12 @@ public abstract class EntityMixin implements EntityAccessor {
 
     public EntityGravity getGravity() { return this.dataTracker.get(GRAVITY); }
 
-    private void preGravityChange() {
-        this.oldEyePos = this.getPos().add(0, this.getEyeHeight(this.getPose()), 0);
-        this.setPreviousGravity(getGravity());
-    }
-
     private void postGravityChange(EntityGravity gravity) {
         this.transitionAngle = 0;
 
-        if (this.previousGravity != gravity) {
-            if (this.previousGravity.getOpposite() == gravity)
-                this.fallDistance *= 0.0f; //config.oppositeFallDistanceMultiplier
-            else this.fallDistance *= 0.5f; //config.otherFallDistanceMultiplier
-        }
+        if (gravity.getPrevious().getOpposite() == gravity)
+            this.fallDistance *= 0.0f; //config.oppositeFallDistanceMultiplier
+        else this.fallDistance *= 0.5f; //config.otherFallDistanceMultiplier
 
         if (this.world.isClient) {
             Vec3d newEyePos = this.getPos().add(0, this.getEyeHeight(this.getPose()), 0);
@@ -153,8 +152,9 @@ public abstract class EntityMixin implements EntityAccessor {
      */
     @Inject(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;tickNetherPortal()V"))
     private void baseTick(CallbackInfo ci) {
+        if(this.getGravity().getTransition() > 0) this.getGravity().tickTransition();
         if(this.getGravity().getLength() > 0) this.getGravity().tickLength();
-        else if(this.getGravity().getLength() == 0 && !this.getGravity().isPermanent()) this.setGravity(config.defaultGravity, -1);
+        else if(this.getGravity().getLength() == 0) this.setGravity(config.defaultGravity, -1);
     }
 
     /**
@@ -299,7 +299,7 @@ public abstract class EntityMixin implements EntityAccessor {
     @Inject(method = "toTag", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getCustomName()Lnet/minecraft/text/Text;", shift = At.Shift.BEFORE))
     public void toTag(CompoundTag tag, CallbackInfoReturnable<CompoundTag> cir) {
         tag.putInt("Gravity", getGravity().ordinal());
-        tag.putInt("Length", getGravity().isPermanent()?-1:getGravity().getLength());
+        tag.putInt("Length", getGravity().getLength());
     }
 
     @Inject(method = "fromTag", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;setNoGravity(Z)V"))

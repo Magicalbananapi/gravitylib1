@@ -31,29 +31,22 @@ public class GravityCommand {
         LiteralArgumentBuilder<ServerCommandSource> literal = CommandManager.literal("gravity")
                 .requires((serverCommandSource) -> serverCommandSource.hasPermissionLevel(2));
 
-        /* TODO: Add command argument so you can search for things like @e[gravity=down],
+        /*
+         * TODO: Add command argument so you can search for things like @e[gravity=down],
          *  AND implement something like this /gravity command structure
          *  /gravity get <optional: (gravitylib.direction||gravitylib.strength), defaults to direction> <optional: (gravitylib.base||gravitylib.length), defaults to base> <optional: @target, defaults to @p>
          *  /gravity set <optional: (gravitylib.direction||gravitylib.strength), defaults to direction> (direction||value) <optional: @target, defaults to @p> <optional: length, defaults to -1 or permanent> [potential tags]
          */
-
-        literal.then(CommandManager.literal("get")
-                .executes((ctx) -> execute(ctx, Collections.singleton(ctx.getSource().getPlayer())))
-                .then(CommandManager.argument("target", EntityArgumentType.entities())
-                        .executes((ctx) -> execute(ctx, EntityArgumentType.getEntities(ctx, "target")))));
-
-        //TODO: Make a command argument for gravity direction
         for (EntityGravity gravity : EntityGravity.values()) {
-            literal.then(CommandManager.literal("set").then(CommandManager.literal(gravity.getName())
-                    .executes((ctx) -> execute(ctx, Collections.singleton(ctx.getSource().getEntity()), gravity, true))
-                    .then(CommandManager.argument("length", IntegerArgumentType.integer(0))
-                            .executes((ctx) -> execute(ctx, Collections.singleton(ctx.getSource().getEntity()), gravity, IntegerArgumentType.getInteger(ctx, "length"))))
+            literal.executes((ctx) -> execute(ctx, Collections.singleton(ctx.getSource().getEntity())))
                     .then(CommandManager.argument("target", EntityArgumentType.entities())
-                            .executes((ctx) -> execute(ctx, EntityArgumentType.getEntities(ctx, "target"), gravity, true))
-                            .then(CommandManager.argument("permanent", BoolArgumentType.bool())
-                                    .executes((ctx) -> execute(ctx, EntityArgumentType.getEntities(ctx, "target"), gravity, BoolArgumentType.getBool(ctx, "permanent"))))
-                            .then(CommandManager.argument("length", IntegerArgumentType.integer(0))
-                                    .executes((ctx) -> execute(ctx, EntityArgumentType.getEntities(ctx, "target"), gravity, IntegerArgumentType.getInteger(ctx, "length")))))));
+                            .executes((ctx) -> execute(ctx, EntityArgumentType.getEntities(ctx, "target")))
+                            .then(CommandManager.literal(gravity.getName())
+                                    .executes((ctx) -> execute(ctx, EntityArgumentType.getEntities(ctx, "target"), gravity, true))
+                                    .then(CommandManager.argument("length", IntegerArgumentType.integer(0))
+                                            .executes((ctx) -> execute(ctx, EntityArgumentType.getEntities(ctx, "target"), gravity, IntegerArgumentType.getInteger(ctx, "length"))))
+                                    .then(CommandManager.argument("permanent", BoolArgumentType.bool())
+                                            .executes((ctx) -> execute(ctx, EntityArgumentType.getEntities(ctx, "target"), gravity, BoolArgumentType.getBool(ctx, "permanent"))))));
         } dispatcher.register(literal);
     }
 
@@ -66,7 +59,9 @@ public class GravityCommand {
     private static int execute(CommandContext<ServerCommandSource> context, Collection<? extends Entity> targets) {
         int i = 0;
         for (Entity entity : targets) {
-            context.getSource().sendFeedback(new LiteralText("Direction: "+((EntityAccessor)entity).getGravity().getName().toUpperCase(Locale.ROOT)), false);
+            LiteralText text = new LiteralText("Direction: "+((EntityAccessor)entity).getGravity().getName().toUpperCase(Locale.ROOT));
+            /*if(!((EntityAccessor)entity).getGravity().isPermanent())*/ text.append(", Length: "+((EntityAccessor)entity).getGravity().getLength()+" Ticks");
+            context.getSource().sendFeedback(text, false);
             ++i;
         } return i;
     }
