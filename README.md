@@ -2,7 +2,7 @@
 
 This mod fixes: https://bugs.mojang.com/browse/MC-119369
 \
-*and probably introduces some bugs as a result, create an issue if you notice odd behavior with boats with this mod installed
+*and probably introduces some bugs as a result, create an issue if you notice odd behavior with boats with this mod installed*
 
 
 
