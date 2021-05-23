@@ -1,5 +1,7 @@
 # gravitylib
 
+This github repo is not up to date, I'm working on that, the below changes are completed but not implemented here:
+
 This mod fixes*: https://bugs.mojang.com/browse/MC-119369
 \
 **and probably introduces some bugs as a result, create an issue if you notice odd behavior with boats when this mod is installed*
