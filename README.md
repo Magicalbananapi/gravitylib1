@@ -1,4 +1,6 @@
-# gravitylib
+This repository has been replaced with this: [GravityLib](https://github.com/Magicalbananapi/GravityLib)
+
+### gravitylib
 
 This github repo is not up to date, I'm working on that, the below changes are completed but not implemented here:
 
