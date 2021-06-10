@@ -8,8 +8,8 @@ This mod fixes*: https://bugs.mojang.com/browse/MC-119369
 \
 **and probably introduces some bugs as a result, create an issue if you notice odd behavior with boats when this mod is installed*
 
-ID | Name | Rank
--- | ---- | ----
+ID | Name | Rank | test
+-- | ---- | ---- | --
 gravity | get, reset, rotate, set | target
 gravity | get, reset, rotate, set | target | hi
 
