@@ -11,7 +11,7 @@ This mod fixes*: https://bugs.mojang.com/browse/MC-119369
 ID | Name | Rank
 -- | ---- | ----
 gravity | get, reset, rotate, set | target
-gravity | get, reset, rotate, set | target
+gravity | get, reset, rotate, set | target | hi
 
 ### Command Syntax:
 /gravity \<get, reset, rotate, set> \<target> ...
