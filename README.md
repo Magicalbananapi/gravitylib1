@@ -8,12 +8,15 @@ This mod fixes*: https://bugs.mojang.com/browse/MC-119369
 \
 **and probably introduces some bugs as a result, create an issue if you notice odd behavior with boats when this mod is installed*
 
-
+ID | Name | Rank
+-- | ---- | ----
+gravity | get, reset, rotate, set | target
+gravity | get, reset, rotate, set | target
 
 ### Command Syntax:
-/gravity \<add, divide, get, multiply, reset, rotate, set, subtract> \<target> ...
+/gravity \<get, reset, rotate, set> \<target> ...
 
-/gravity \<add, divide, get, multiply, reset, rotate, set, subtract> \<target> [\<type>] ...
+/gravity \<get, reset, rotate, set> \<target> [\<type>] ...
 
 *suggestions will be organized in alphabetical order in game, and I have no idea how to change this
 
